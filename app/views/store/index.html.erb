@@ -3,6 +3,9 @@
 <% end %>
 
 <h1>Your Pragmatic Catalog</h1>
+<% if @session >= 5 %>
+  <p>This page has been viewed <%= pluralize(@session, "time") %>.</p>
+<% end %>
 
 <ul class="catalog">
   <% cache @products do %>
