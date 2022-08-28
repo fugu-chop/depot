@@ -1,5 +1,7 @@
 class ProductsController < ApplicationController
+  include InvalidObject
   before_action :set_product, only: %i[ show edit update destroy ]
+  rescue_from ActiveRecord::RecordNotFound, with: :invalid_object
 
   # GET /products or /products.json
   def index

@@ -1,7 +1,9 @@
 class LineItemsController < ApplicationController
   include CurrentCart
+  include InvalidObject
   before_action :set_cart, only: [:create]
   before_action :set_line_item, only: %i[ show edit update destroy ]
+  rescue_from ActiveRecord::RecordNotFound, with: :invalid_object
 
   # GET /line_items or /line_items.json
   def index
