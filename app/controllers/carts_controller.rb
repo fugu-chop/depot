@@ -10,6 +10,9 @@ class CartsController < ApplicationController
 
   # GET /carts/1 or /carts/1.json
   def show
+    unless params[:id] == session[:cart_id].to_s
+      redirect_to cart_url(session[:cart_id]), notice: "This cart does not belong to you."
+    end
   end
 
   # GET /carts/new
