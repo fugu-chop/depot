@@ -10,8 +10,8 @@ class CartsController < ApplicationController
 
   # GET /carts/1 or /carts/1.json
   def show
-    unless params[:id] == session[:cart_id].to_s
-      redirect_to cart_url(session[:cart_id]), notice: "This cart does not belong to you."
+    unless params_matches_session
+      redirect_to cart_url(session[:cart_id]), notice: "This cart does not belong to you." 
     end
   end
 
@@ -72,5 +72,9 @@ class CartsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def cart_params
       params.fetch(:cart, {})
+    end
+
+    def params_matches_session
+      params[:id] == session[:cart_id].to_s
     end
 end
