@@ -1,5 +1,5 @@
 require "test_helper"
-require "/Users/dean/Documents/depot/test/controllers/sessions_controller.rb"
+require_relative "./sessions_controller.rb"
 
 class CartsControllerTest < ActionDispatch::IntegrationTest
   setup do
