@@ -1,4 +1,5 @@
 require "test_helper"
+require "/Users/dean/Documents/depot/test/controllers/sessions_controller.rb"
 
 class CartsControllerTest < ActionDispatch::IntegrationTest
   setup do
@@ -23,13 +24,19 @@ class CartsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to cart_url(Cart.last)
   end
 
-  # This test is currently broken - I can't mock the id
-  # test "should show cart" do
-  #   session = {}
-  #   session[:cart_id] = @cart.id
-  #   get cart_url(@cart), params: { id: @cart.id }
-  #   assert_response :success
-  # end
+  # We need to hack in setting the session
+  # As this is not supported by Rails 5+
+  # See https://gist.github.com/dteoh/99721c0321ccd18286894a962b5ce584
+  test "should show cart" do
+    def set_session(vars = {})
+      post test_session_path, params: { session_vars: vars }
+    end
+
+    set_session(cart_id: @cart.id)
+
+    get cart_url(@cart)
+    assert_response :success
+  end
 
   test "should get edit" do
     get edit_cart_url(@cart)
