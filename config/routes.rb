@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   root "store#index", as: 'store_index'
   resources :products
 
+  # Required so we can set the session 
+  # in the carts controller show test
   if Rails.env.test?
     namespace :test do
       resource :session, only: %i[create]
