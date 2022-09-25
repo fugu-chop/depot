@@ -1,7 +1,7 @@
 class LineItemsController < ApplicationController
   include CurrentCart
   include InvalidObject
-  before_action :set_cart, only: [:create]
+  before_action :set_cart, only: [:create, :update]
   before_action :set_line_item, only: %i[ show edit update destroy ]
   rescue_from ActiveRecord::RecordNotFound, with: :invalid_object
 
@@ -44,9 +44,15 @@ class LineItemsController < ApplicationController
 
   # PATCH/PUT /line_items/1 or /line_items/1.json
   def update
+    if params[:reduce_quantity]
+      product = Product.find(params[:product_id])
+      @line_item = @cart.reduce_quantity(product)
+    end
+
     respond_to do |format|
       if @line_item.update(line_item_params)
         format.html { redirect_to line_item_url(@line_item), notice: "Line item was successfully updated." }
+        format.js
         format.json { render :show, status: :ok, location: @line_item }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -73,6 +79,6 @@ class LineItemsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def line_item_params
-      params.require(:line_item).permit(:product_id)
+      params.permit(:product_id)
     end
 end
