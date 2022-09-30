@@ -49,7 +49,7 @@ class OrdersTest < ApplicationSystemTestCase
   end
 
   # The pay type field is not being picked up, despite
-  # appearing in the UI in the test snapshot
+  # appearing in the UI in the test snapshot and puts page.body
   # test "check routing number" do
   #   visit store_index_url
   #   click_on 'Add to Cart', match: :first
