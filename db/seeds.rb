@@ -6,7 +6,12 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+LineItem.delete_all
+Order.delete_all
+Cart.delete_all
+LineItem.delete_all
 Product.delete_all
+
 Product.create!(title: 'Docker for Rails Developers',
   description:
     %{<p>
@@ -41,7 +46,7 @@ Product.create!(title: 'Build Chatbot Interactions',
   price: 20.00)
 # . . .
 
-Product.create!(title: 'Programming Crystal',
+crystal = Product.create!(title: 'Programming Crystal',
   description:
     %{<p>
       <em>Create High-Performance, Safe, Concurrent Apps</em>
@@ -56,3 +61,7 @@ Product.create!(title: 'Programming Crystal',
       </p>},
   image_url: 'crystal.jpg',
   price: 40.00)
+
+cart = Cart.create!()
+order = Order.create!(name: 'Yilly Willy', pay_type: 0, address: "7 Yort St, Yortolio, Yortingy", email: "yello@mello.com")
+LineItem.create!(product_id: crystal.id, cart_id: cart.id, price: 40, order_id: order.id)
