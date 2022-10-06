@@ -50,6 +50,32 @@ class OrdersTest < ApplicationSystemTestCase
     assert_text "Order was successfully destroyed"
   end
 
+  test "add to cart exposes cart in sidebar" do
+    LineItem.delete_all
+    Order.delete_all
+
+    visit store_index_url
+
+    assert_no_selector "article h2"
+
+    click_on 'Add to Cart', match: :first
+
+    assert_selector "article h2"
+  end
+
+  test "Empty cart button removes cart from sidebar" do
+    visit store_index_url
+    click_on 'Add to Cart', match: :first
+
+    assert_selector "article h2", text: "Your Cart"
+
+    accept_alert do
+      click_on 'Empty cart', match: :first
+    end
+
+    assert_no_selector "article h2"
+  end
+
   test "check credit card number" do
     LineItem.delete_all
     Order.delete_all
