@@ -83,6 +83,7 @@ class OrdersController < ApplicationController
     end
 
     def pay_type_params
+      # #permit returns an instance of ActionController::Parameters for the key(s) passed into require.
       if order_params[:pay_type] == "Credit card"
         params.require(:order).permit(:credit_card_number, :expiration_date) 
       elsif order_params[:pay_type] == "Check"

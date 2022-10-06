@@ -23,6 +23,7 @@ class Order < ApplicationRecord
     payment_details = {}
     payment_method = nil
 
+    # checking the enum on the object that's available as a method
     case pay_type
     when "Check"
       payment_method = :check
