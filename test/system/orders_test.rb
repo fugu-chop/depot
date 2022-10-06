@@ -50,6 +50,46 @@ class OrdersTest < ApplicationSystemTestCase
     assert_text "Order was successfully destroyed"
   end
 
+  test "check credit card number" do
+    LineItem.delete_all
+    Order.delete_all
+
+    visit store_index_url
+    click_on 'Add to Cart', match: :first
+    click_on 'Checkout'
+
+    fill_in 'order_name', with: 'Dave Thomas'
+    fill_in 'order_address', with: '123 Main Street'
+    fill_in 'order_email', with: 'dave@example.com'
+
+    assert_no_selector "#order_credit_card_number"
+    assert_no_selector "#order_expiration_date"
+
+    select 'Credit card', from: 'pay_type'
+
+    assert_selector "#order_credit_card_number"
+    assert_selector "#order_expiration_date"
+  end
+
+  test "check purchase order" do
+    LineItem.delete_all
+    Order.delete_all
+
+    visit store_index_url
+    click_on 'Add to Cart', match: :first
+    click_on 'Checkout'
+
+    fill_in 'order_name', with: 'Dave Thomas'
+    fill_in 'order_address', with: '123 Main Street'
+    fill_in 'order_email', with: 'dave@example.com'
+
+    assert_no_selector "#order_po_number"
+
+    select 'Purchase order', from: 'pay_type'
+
+    assert_selector "#order_po_number"
+  end
+
   test "check routing number" do
     LineItem.delete_all
     Order.delete_all
