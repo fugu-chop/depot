@@ -14,6 +14,7 @@ class OrdersTest < ApplicationSystemTestCase
 
   # There is additional validation I've written that makes it impossible
   # to create an order without line_items in a cart, so this will continually fail
+  # in this particular sequence (this can't happen in the app)
   # test "creating a Order" do
   #   visit orders_url
   #   click_on "New Order"
@@ -61,6 +62,16 @@ class OrdersTest < ApplicationSystemTestCase
     click_on 'Add to Cart', match: :first
 
     assert_selector "article h2"
+  end
+
+  test "add to cart applies a highlight to an item" do
+    visit store_index_url
+
+    assert_no_selector ".line-item-highlight"
+
+    click_on 'Add to Cart', match: :first
+
+    assert_selector ".line-item-highlight"
   end
 
   test "Empty cart button removes cart from sidebar" do
@@ -130,8 +141,8 @@ class OrdersTest < ApplicationSystemTestCase
 
     assert_no_selector "#order_routing_number"
 
-    # The reference material is incorrect. 'from' takes an id
-    # NOT a value: https://www.rubydoc.info/github/jnicklas/capybara/Capybara/Node/Actions:select
+    # The reference material is incorrect. 'from' takes an id NOT a value:
+    # https://www.rubydoc.info/github/jnicklas/capybara/Capybara/Node/Actions:select
     select 'Check', from: 'pay_type'
 
     assert_selector "#order_routing_number"
