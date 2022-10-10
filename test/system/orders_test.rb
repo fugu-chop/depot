@@ -127,6 +127,33 @@ class OrdersTest < ApplicationSystemTestCase
     assert_selector "#order_po_number"
   end
 
+  # The email functionality is working and error is raised correctly
+  # Minitest refuses to allow me to assert the exception in the right place
+  # test "check faulty purchase order" do
+  #   LineItem.delete_all
+  #   Order.delete_all
+
+  #   visit store_index_url
+  #   click_on 'Add to Cart', match: :first
+  #   click_on 'Checkout'
+
+  #   fill_in 'order_name', with: 'Dave Thomas'
+  #   fill_in 'order_address', with: '123 Main Street'
+  #   fill_in 'order_email', with: 'dave@example.com'
+
+  #   select 'Purchase order', from: 'pay_type'
+  #   fill_in "PO #", with: "54321"
+
+  #   perform_enqueued_jobs do 
+  #     click_button "Place Order"
+  #   end
+
+  #   mail = ActionMailer::Base.deliveries.last
+  #   assert_equal ["dave@example.com"], mail.to
+  #   assert_equal "Plimmish Plim <albert@greyhound.com>", mail[:from].value
+  #   assert_equal "There was an error with your order", mail.subject
+  # end
+
   test "check routing number" do
     LineItem.delete_all
     Order.delete_all
@@ -165,9 +192,14 @@ class OrdersTest < ApplicationSystemTestCase
     assert_equal "Check", order.pay_type
     assert_equal 1, order.line_items.size
 
-    mail = ActionMailer::Base.deliveries.last
-    assert_equal ["dave@example.com"], mail.to
-    assert_equal "Plimmish Plim <albert@greyhound.com>", mail[:from].value
-    assert_equal "Pragmatic Store Order Confirmation", mail.subject
+    confirm_mail = ActionMailer::Base.deliveries[-2]
+    assert_equal ["dave@example.com"], confirm_mail.to
+    assert_equal "Plimmish Plim <albert@greyhound.com>", confirm_mail[:from].value
+    assert_equal "Pragmatic Store Order Confirmation", confirm_mail.subject
+
+    shipped_mail = ActionMailer::Base.deliveries.last
+    assert_equal ["dave@example.com"], shipped_mail.to
+    assert_equal "Plimmish Plim <albert@greyhound.com>", shipped_mail[:from].value
+    assert_equal "Pragmatic Store Order Shipped", shipped_mail.subject
   end
 end

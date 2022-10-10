@@ -56,7 +56,7 @@ class Order < ApplicationRecord
       OrderMailer.shipped(self).deliver_later
     else
       OrderMailer.order_error(self).deliver_later
-      raise payment_result.error
+      raise StandardError, "There was an issue with the order"
     end
   end
 end
