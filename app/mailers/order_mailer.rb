@@ -21,4 +21,9 @@ class OrderMailer < ApplicationMailer
     @order = order
     mail to: order.email, subject: 'Pragmatic Store Order Shipped'
   end
+
+  def order_error(order)
+    @order = order
+    mail to: order.email, subject: 'There was an error with your order'
+  end
 end

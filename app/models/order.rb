@@ -19,6 +19,10 @@ class Order < ApplicationRecord
     end
   end
 
+  def shipped!
+    ship_date = Time.now();
+  end
+
   def charge!(pay_type_params)
     payment_details = {}
     payment_method = nil
@@ -48,7 +52,10 @@ class Order < ApplicationRecord
 
     if payment_result.succeeded? 
       OrderMailer.received(self).deliver_later
+      shipped!
+      OrderMailer.shipped(self).deliver_later
     else
+      OrderMailer.order_error(self).deliver_later
       raise payment_result.error
     end
   end

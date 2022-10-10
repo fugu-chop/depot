@@ -14,7 +14,13 @@ class Pago
     end
   
     sleep 3 unless Rails.env.test?
-    Rails.logger.info "Done Processing Payment"
-    OpenStruct.new(succeeded?: true)
+
+    if payment_method == :po && payment_details.fetch(:po_num).to_s == "54321" 
+      Rails.logger.info "Test Failure Case"
+      OpenStruct.new(succeeded?: false)
+    else
+      Rails.logger.info "Done Processing Payment"
+      OpenStruct.new(succeeded?: true)
+    end
   end
 end

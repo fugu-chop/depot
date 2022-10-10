@@ -1,0 +1,7 @@
+Dear <%= @order.name %>
+
+There was an error with your order. You ordered the following items:
+
+<%= render @order.line_items -%>
+
+Please contact us to sort this out.
