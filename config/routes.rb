@@ -1,8 +1,10 @@
 Rails.application.routes.draw do
-  get 'admin/index'
-  get 'session_store/new'
-  get 'session_store/create'
-  get 'session_store/destroy'
+  get 'admin' => 'admin#index' 
+  controller :session_store do
+    get 'login' => :new
+    post 'login' => :create
+    delete 'logout' => :destroy
+  end
   resources :users
   resources :orders
   resources :line_items
