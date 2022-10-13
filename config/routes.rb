@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get 'session_store/new'
+  get 'session_store/create'
+  get 'session_store/destroy'
   resources :users
   resources :orders
   resources :line_items
