@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'admin/index'
   get 'session_store/new'
   get 'session_store/create'
   get 'session_store/destroy'
