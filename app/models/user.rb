@@ -6,6 +6,9 @@ class User < ApplicationRecord
   class NoUsersError < StandardError 
   end
 
+  class IncorrectPasswordError < StandardError 
+  end
+
   private
     def ensure_an_admin_remains
       if User.count.zero?
