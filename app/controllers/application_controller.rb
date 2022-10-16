@@ -3,6 +3,8 @@ class ApplicationController < ActionController::Base
 
   protected
     def authorize
+      return true if User.none?
+
       unless User.find_by(id: session[:user_id])
         redirect_to login_url, notice: "Please log in"
       end
