@@ -48,7 +48,6 @@ class UsersController < ApplicationController
       else
         raise User::IncorrectPasswordError.new "Current password is incorrect"
       end
-
     end
   end
 
