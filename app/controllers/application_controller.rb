@@ -11,7 +11,8 @@ class ApplicationController < ActionController::Base
         return
       end
 
-      if request.format == "text/html"
+      # Have not been able to mock this in-browser login
+      if request.format == "text/html" && ENV['RAILS_ENV'] != 'test'
         authenticate_or_request_with_http_basic do |_user, password|
           found_user.try(:authenticate, password)
         end
