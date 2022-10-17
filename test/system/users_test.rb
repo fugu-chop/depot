@@ -5,6 +5,13 @@ class UsersTest < ApplicationSystemTestCase
     @user = users(:one)
   end
 
+  test "visiting the index when logged out" do
+    visit users_url
+    click_on "Logout", match: :first
+    visit users_url
+    assert_selector "h2", text: "Please Log In"
+  end
+
   test "visiting the index" do
     visit users_url
     assert_selector "h1", text: "Users"
