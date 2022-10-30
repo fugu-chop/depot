@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   before_action :authorize
+  before_action :set_i18n_locale_from_params 
 
   protected
     def authorize
@@ -21,6 +22,17 @@ class ApplicationController < ActionController::Base
         # http://localhost:3000/products/8/who_bought.atom
         # But not in the CLI
         return true
+      end
+    end
+
+    def set_i18n_locale_from_params
+      if params[:locale]
+        if I18n.available_locales.map(&:to_s).include?(params[:locale])
+          I18n.locale = params[:locale]
+        else
+          flash.now[:notice] = "#{params[:locale]} translation not available"
+          logger.error(flash.now[:notice])
+        end
       end
     end
 end
