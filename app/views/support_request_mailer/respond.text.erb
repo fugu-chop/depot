@@ -1,3 +1,5 @@
-SupportRequest#respond
+<%= @support_request.response.to_plain_text %>
 
-<%= @greeting %>, find me in app/views/support_request_mailer/respond.text.erb
+---
+
+<%= @support_request.body %>
